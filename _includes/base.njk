@@ -14,13 +14,40 @@
       color: #333;
     }
     h1 { margin-bottom: 0.5em; }
-    .post { margin-bottom: 3em; }
+    .post { 
+      margin-bottom: 3em; 
+      padding: 1em;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+    .post.highlight {
+      border-color: #0066cc;
+      background-color: #f0f8ff;
+    }
     .post-date { 
       color: #666; 
       font-size: 0.9em;
       margin-bottom: 1em;
     }
     a { color: #0066cc; }
+    .random-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+    .random-btn:hover {
+      background: #0052a3;
+    }
   </style>
 </head>
 <body>
@@ -30,5 +57,31 @@
   <main>
     {{ content | safe }}
   </main>
+  <button class="random-btn" onclick="jumpToRandomPost()">🎲 Random</button>
+  
+  <script>
+    function jumpToRandomPost() {
+      const posts = document.querySelectorAll('.post');
+      if (posts.length === 0) return;
+      
+      // Remove previous highlight
+      posts.forEach(post => post.classList.remove('highlight'));
+      
+      // Pick random post
+      const randomIndex = Math.floor(Math.random() * posts.length);
+      const randomPost = posts[randomIndex];
+      
+      // Add highlight
+      randomPost.classList.add('highlight');
+      
+      // Scroll to post with smooth behavior
+      randomPost.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Remove highlight after 3 seconds
+      setTimeout(() => {
+        randomPost.classList.remove('highlight');
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
