@@ -1,0 +1,11 @@
+---
+layout: base.njk
+title: Notes
+---
+
+{% for post in collections.post | reverse %}
+<article class="post">
+  <div class="post-date">{{ post.date | dateDisplay }}</div>
+  {{ post.templateContent | safe }}
+</article>
+{% endfor %}
